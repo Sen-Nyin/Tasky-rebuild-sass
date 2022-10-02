@@ -144,6 +144,9 @@ export default class View {
         const taskElement = this.createEle('li', 'tasks-list-item');
         taskElement.dataset.taskid = task.id;
 
+        const detailsElement = this.createEle('details', 'tasks-details');
+        const summaryElement = this.createEle('summary', 'tasks-summary');
+
         if (task.priority === 'High')
           taskElement.classList.add('priority-high');
         if (task.priority === 'Medium')
@@ -153,6 +156,12 @@ export default class View {
         const taskText = this.createEle('span', 'tasks-list-item-title');
         taskText.textContent = task.task;
 
+        const descriptionText = this.createEle(
+          'p',
+          'tasks-list-item-description'
+        );
+        descriptionText.textContent = task.description;
+
         const taskDate = this.createEle('span', 'tasks-list-item-date');
         if (new Date().toDateString() > new Date(task.duedate).toDateString()) {
           const days = Math.round(
@@ -161,7 +170,8 @@ export default class View {
             )
           );
           taskDate.textContent = `${days} ${days > 1 ? 'days' : 'day'} overdue`;
-          taskDate.classList.add('text-red-500');
+          if (!task.complete)
+            taskDate.classList.add('tasks-list-item-date--overdue');
         } else if (
           new Date().toDateString() === new Date(task.duedate).toDateString()
         ) {
@@ -221,13 +231,9 @@ export default class View {
           taskDate.textContent = 'Complete';
         }
 
-        taskElement.append(
-          checkbox,
-          taskText,
-          buttonWrapper,
-          taskDate,
-          taskProject
-        );
+        summaryElement.append(taskText, buttonWrapper, taskDate, taskProject);
+        detailsElement.append(summaryElement, descriptionText);
+        taskElement.append(checkbox, detailsElement);
         this.taskList.append(taskElement);
       });
     }

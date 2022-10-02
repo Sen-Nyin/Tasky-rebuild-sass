@@ -1,17 +1,22 @@
 @use '../abstracts/' as a;
 
 :root {
+  // control
+  --header-bg-clr: var(--clr-primary);
+  --footer-bg-clr: var(--clr-primary);
+  --sidebar-bg-clr: var(--clr-neutral-200);
+  --body-bg-clr: var(--clr-neutral-100);
+
   // Set 1 rem = 10px
   font-size: 62.5%;
   --fnt-sz-default: 1.6rem;
   --fnt-fam-default: 'Roboto', sans-serif;
 
   // Colours
-  --clr-primary-regular: #{a.$sky-500};
-  --clr-primary-light: #{a.$sky-400};
-  --clr-primary-dark: #{a.$sky-600};
-  --clr-primary-xlight: #{a.$sky-100};
-  --clr-primary-xdark: #{a.$sky-800};
+  --clr-primary: #{a.$rose-500};
+  --clr-primary-light: #{a.$rose-400};
+  --clr-primary-dark: #{a.$rose-600};
+  --clr-primary-xlight: #{a.$rose-200};
   --clr-green-regular: #{a.$emerald-500};
   --clr-green-light: #{a.$emerald-400};
   --clr-green-dark: #{a.$emerald-600};
@@ -21,8 +26,18 @@
   --clr-orange-regular: #{a.$orange-500};
   --clr-orange-dark: #{a.$orange-600};
   --clr-orange-light: #{a.$orange-400};
-  --clr-white: #{a.$neutral-100};
-  --clr-black: #{a.$neutral-800};
+  --clr-white: var(--clr-neutral-100);
+  --clr-black: var(--clr-neutral-800);
+  --clr-neutral-50: #{a.$neutral-50};
+  --clr-neutral-100: #{a.$neutral-100};
+  --clr-neutral-200: #{a.$neutral-200};
+  --clr-neutral-300: #{a.$neutral-300};
+  --clr-neutral-400: #{a.$neutral-400};
+  --clr-neutral-500: #{a.$neutral-500};
+  --clr-neutral-600: #{a.$neutral-600};
+  --clr-neutral-700: #{a.$neutral-700};
+  --clr-neutral-800: #{a.$neutral-800};
+  --clr-neutral-900: #{a.$neutral-900};
 
   // Sizing
   --size-1: #{a.$size-1};
@@ -39,7 +54,7 @@
 body {
   display: grid;
   grid-template-rows: max-content 1fr;
-  background: var(--clr-white);
+  background: var(--body-bg-clr);
   min-height: 100vh;
   font-family: var(--fnt-fam-default);
   font-size: var(--fnt-sz-default);

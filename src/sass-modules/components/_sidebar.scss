@@ -5,7 +5,7 @@
   flex-direction: column;
   flex-shrink: 0;
   gap: var(--size-1);
-  background: var(--clr-primary-xlight);
+  background: var(--sidebar-bg-clr);
   color: var(--clr-black);
   height: 100%;
   width: var(--size-72);
@@ -42,7 +42,7 @@
     padding-block: var(--size-3);
 
     &:hover {
-      box-shadow: inset 250px 0 0 0 rgba(219, 234, 254);
+      box-shadow: inset 250px 0 0 0 var(--clr-primary-xlight);
     }
   }
 }

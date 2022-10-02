@@ -29,6 +29,7 @@ main {
 
 .filter-list {
   position: absolute;
+  z-index: 90;
   top: var(--size-8);
   display: flex;
   flex-direction: column;
@@ -78,24 +79,20 @@ main {
   }
   &-list-item {
     display: grid;
-    grid-template-columns: max-content 1fr max-content;
-    grid-template-rows: repeat(2, max-content);
-    grid-template-areas: 'check title buttons' 'check date project';
-    gap: var(--size-2);
+    grid-template-columns: max-content 1fr;
+    grid-template-areas: 'check details';
     border-bottom: 1px solid #cccccc;
-    font-weight: 300;
-    font-size: var(--size-3);
     border-radius: var(--size-2);
-    padding: var(--size-4);
-    transition-duration: 400ms;
+    overflow: hidden;
+    transition-duration: 600ms;
     &:hover {
-      box-shadow: inset 0 -90px 0 0 rgba(0, 0, 0, 0.03);
+      box-shadow: inset -1000px 0 0 0 rgba(0, 0, 0, 0.03);
     }
 
     &-checkbox {
       grid-area: check;
       margin-block: auto;
-      margin-right: var(--size-6);
+      margin-inline: var(--size-6);
       font: inherit;
       color: currentColor;
       width: 1.15em;
@@ -135,6 +132,9 @@ main {
       display: flex;
       gap: var(--size-2);
       align-items: center;
+      &--overdue {
+        color: var(--clr-red-regular);
+      }
     }
     &-project {
       grid-area: project;
@@ -143,14 +143,38 @@ main {
       align-items: center;
       text-transform: uppercase;
     }
+    &-description {
+      margin-top: var(--size-4);
+      font-size: var(--size-4);
+      font-weight: 300;
+    }
 
     &-complete {
       text-decoration: line-through;
       transition-duration: 400ms;
     }
   }
+  &-details {
+    grid-area: details;
+
+    padding: var(--size-4);
+  }
+  &-summary {
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    grid-template-rows: repeat(2, max-content);
+    grid-template-areas: 'title buttons' 'date project';
+    gap: var(--size-2);
+    font-weight: 300;
+    font-size: var(--size-3);
+    transition-duration: 400ms;
+  }
 }
 
+details[open] > summary {
+  border-bottom: 1px solid #cccccc;
+  padding-bottom: var(--size-4);
+}
 .priority {
   &-high {
     border-left: var(--size-2) solid var(--clr-red-regular);
