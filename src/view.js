@@ -396,14 +396,19 @@ export default class View {
       );
     } else if (type === 'project') {
       this.modalTitle.textContent = 'New Project';
-      const projectLabel = this.createEle('label', 'modal-label');
-      projectLabel.textContent = 'Project name';
-      projectLabel.for = 'project-title';
-      const projectTitle = this.createEle('input', 'modal-input');
+      // const projectLabel = this.createEle('label', 'modal-label');
+      // projectLabel.textContent = 'Project name';
+      // projectLabel.for = 'project-title';
+      const projectTitle = this.createEle(
+        'input',
+        'modal-input',
+        'modal-project-title'
+      );
       projectTitle.dataset.label = 'project-title';
       projectTitle.type = 'text';
       projectTitle.id = 'project-title';
-      this.form.append(projectLabel, projectTitle);
+      projectTitle.placeholder = 'Project title...';
+      this.form.append(projectTitle);
     }
 
     buttonContainer.append(closeButton, submitButton);

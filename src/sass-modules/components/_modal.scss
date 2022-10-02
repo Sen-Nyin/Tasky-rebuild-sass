@@ -11,7 +11,7 @@
   }
   &-header {
     padding: var(--size-4);
-    background: vaR(--clr-primary-regular);
+    background: vaR(--clr-primary);
     font-weight: bold;
     color: var(--clr-white);
     font-size: var(--size-5);
@@ -80,6 +80,11 @@
     }
     &-prio {
       grid-area: prio;
+    }
+  }
+  &-project {
+    &-title {
+      grid-area: title;
     }
   }
 }
