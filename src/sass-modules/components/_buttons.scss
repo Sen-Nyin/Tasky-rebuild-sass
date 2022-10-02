@@ -1,0 +1,104 @@
+@use '../abstracts/' as a;
+
+.btn {
+  cursor: pointer;
+  &-burger {
+    padding-inline: var(--size-4);
+
+    @include a.breakpoint(lg, min) {
+      display: none;
+    }
+  }
+  &-icon-only {
+    display: grid;
+    place-items: center;
+  }
+  &-new-project {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--size-1);
+    padding-block: var(--size-3);
+    padding-inline: var(--size-2);
+    width: 100%;
+    background: var(--clr-green-regular);
+    color: var(--clr-black);
+    text-transform: uppercase;
+    border-radius: var(--size-1);
+    transition-duration: 400ms;
+    font-size: var(--size-3);
+  }
+  &-toggle-projects {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--size-2);
+    padding: var(--size-3);
+    border-radius: var(--size-1);
+    background: var(--clr-primary-regular);
+    color: var(--clr-white);
+    transition-duration: 400ms;
+    &:hover {
+      background: var(--clr-primary-dark);
+    }
+  }
+  &-new-task {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: var(--size-3);
+    padding-inline: var(--size-4);
+    border: 1px solid var(--clr-black);
+    color: var(--clr-black);
+    text-transform: uppercase;
+    border-radius: var(--size-1);
+    transition-duration: 400ms;
+    font-size: var(--size-3);
+    &:hover {
+      background: var(--clr-green-regular);
+      color: var(--clr-white);
+    }
+  }
+  &-tasklist {
+    padding: var(--size-1);
+    border-radius: 9999rem;
+    &:hover {
+      transform: scale(1.25);
+    }
+  }
+  &-form {
+    padding-inline: var(--size-4);
+    padding-block: var(--size-2);
+    border-radius: var(--size-1);
+  }
+  &-project-delete {
+    border-radius: 9999rem;
+    padding: var(--size-1);
+    color: var(--clr-black);
+    &:hover {
+      background: var(--clr-red-regular);
+      color: var(--clr-white);
+    }
+  }
+  &--red {
+    background: var(--clr-red-regular);
+    color: var(--clr-white);
+    &:hover {
+      background: var(--clr-red-dark);
+    }
+  }
+  &--orange {
+    background: var(--clr-orange-regular);
+    color: var(--clr-white);
+    &:hover {
+      background: var(--clr-orange-dark);
+    }
+  }
+  &--green {
+    background: var(--clr-green-regular);
+    color: var(--clr-white);
+    &:hover {
+      background: var(--clr-green-dark);
+    }
+  }
+}

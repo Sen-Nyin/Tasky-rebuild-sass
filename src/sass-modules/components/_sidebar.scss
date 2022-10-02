@@ -1,0 +1,52 @@
+@use '../abstracts/' as a;
+.sidebar {
+  position: static;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: var(--size-1);
+  background: var(--clr-primary-xlight);
+  color: var(--clr-black);
+  height: 100%;
+  width: var(--size-72);
+  padding-block: var(--size-2);
+  padding-inline: var(--size-6);
+
+  transition-duration: 600ms;
+  z-index: 100;
+
+  @include a.breakpoint(lg, max) {
+    position: absolute;
+    padding: var(--size-6);
+    transform: translateX(-100%);
+  }
+  &-hidden {
+    transform: translateX(0);
+  }
+}
+
+.projects {
+  &-list {
+    display: flex;
+    flex-direction: column;
+    padding-top: var(--size-2);
+  }
+  &-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--size-3);
+    border-radius: var(--size-1);
+    transition-duration: 400ms;
+    padding-inline: var(--size-3);
+    padding-block: var(--size-3);
+
+    &:hover {
+      box-shadow: inset 250px 0 0 0 rgba(219, 234, 254);
+    }
+  }
+}
+
+// .project-item {
+//   @apply flex justify-between text-sm items-center p-2 2xl:p-3 rounded-md hover:shadow-[inset_250px_0_0_0_rgba(219,234,254)] hover:text-zinc-700 hover:cursor-pointer duration-500;
+// }

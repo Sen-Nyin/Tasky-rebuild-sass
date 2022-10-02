@@ -1,0 +1,23 @@
+.icon {
+  fill: currentColor;
+  transition-duration: 400ms;
+  &:hover {
+    transform: scale(1.25);
+  }
+  &-6 {
+    width: var(--size-6);
+    aspect-ratio: 1;
+  }
+  &-5 {
+    width: var(--size-5);
+    aspect-ratio: 1;
+  }
+  &-4 {
+    width: var(--size-4);
+    aspect-ratio: 1;
+  }
+  &-3 {
+    width: var(--size-3);
+    aspect-ratio: 1;
+  }
+}

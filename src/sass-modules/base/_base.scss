@@ -1,0 +1,46 @@
+@use '../abstracts/' as a;
+
+:root {
+  // Set 1 rem = 10px
+  font-size: 62.5%;
+  --fnt-sz-default: 1.6rem;
+  --fnt-fam-default: 'Roboto', sans-serif;
+
+  // Colours
+  --clr-primary-regular: #{a.$sky-500};
+  --clr-primary-light: #{a.$sky-400};
+  --clr-primary-dark: #{a.$sky-600};
+  --clr-primary-xlight: #{a.$sky-100};
+  --clr-primary-xdark: #{a.$sky-800};
+  --clr-green-regular: #{a.$emerald-500};
+  --clr-green-light: #{a.$emerald-400};
+  --clr-green-dark: #{a.$emerald-600};
+  --clr-red-regular: #{a.$rose-500};
+  --clr-red-light: #{a.$rose-400};
+  --clr-red-dark: #{a.$rose-600};
+  --clr-orange-regular: #{a.$orange-500};
+  --clr-orange-dark: #{a.$orange-600};
+  --clr-orange-light: #{a.$orange-400};
+  --clr-white: #{a.$neutral-100};
+  --clr-black: #{a.$neutral-800};
+
+  // Sizing
+  --size-1: #{a.$size-1};
+  --size-2: #{a.$size-2};
+  --size-3: #{a.$size-3};
+  --size-4: #{a.$size-4};
+  --size-5: #{a.$size-5};
+  --size-6: #{a.$size-6};
+  --size-8: #{a.$size-8};
+  --size-52: #{a.$size-52};
+  --size-72: #{a.$size-72};
+}
+
+body {
+  display: grid;
+  grid-template-rows: max-content 1fr;
+  background: var(--clr-white);
+  min-height: 100vh;
+  font-family: var(--fnt-fam-default);
+  font-size: var(--fnt-sz-default);
+}

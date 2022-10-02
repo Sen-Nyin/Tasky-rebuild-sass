@@ -1,0 +1,92 @@
+@use '../abstracts/' as a;
+
+.modal {
+  padding: 0;
+  width: min(76.8rem, 90vw);
+  background: var(--clr-white);
+  border-radius: var(--size-1);
+  &:backdrop {
+    background: var(--clr-black);
+    opacity: 0.9;
+  }
+  &-header {
+    padding: var(--size-4);
+    background: vaR(--clr-primary-regular);
+    font-weight: bold;
+    color: var(--clr-white);
+    font-size: var(--size-5);
+  }
+  &-form {
+    display: grid;
+    padding: var(--size-4);
+    gap: var(--size-3);
+
+    grid-template-areas: 'title' 'desc' 'prio' 'project' 'date' 'buttons';
+
+    @include a.breakpoint(lg, min) {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-areas: 'title title' 'desc desc' 'prio project' 'date date' 'buttons buttons';
+    }
+
+    &-item-wrapper {
+      display: flex;
+      gap: var(--size-3);
+      align-items: center;
+    }
+  }
+  &-button-wrapper {
+    grid-area: buttons;
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--size-2);
+  }
+  &-input {
+    padding: var(--size-2);
+    width: 100%;
+  }
+  &-label {
+    font-weight: 300;
+    text-transform: uppercase;
+    font-size: var(--size-3);
+  }
+  &-radio {
+    width: 0;
+    aspect-ratio: 1;
+    &-label {
+      width: max-content;
+      padding: var(--size-2);
+      border-radius: var(--size-1);
+    }
+    &-wrapper {
+      display: flex;
+      gap: var(--size-2);
+      justify-content: flex-start;
+      align-items: center;
+    }
+  }
+  &-task {
+    &-title {
+      grid-area: title;
+    }
+    &-date {
+      grid-area: date;
+    }
+    &-project {
+      grid-area: project;
+    }
+    &-desc {
+      grid-area: desc;
+      padding: var(--size-2);
+    }
+    &-prio {
+      grid-area: prio;
+    }
+  }
+}
+select,
+input[type='date'] {
+  border: 1px solid #cccccc;
+}
+::placeholder {
+  color: #aaaaaa;
+}

@@ -1,0 +1,230 @@
+// ///////////////////////////////////
+// Responsive.scss
+// Media Query & Clamp Mixins & Functions
+// version 1.1  01/07/2022
+// @LeonLonsdale
+// ///////////////////////////////////
+
+@use 'sass:math';
+
+// Edit these viewport breakpoints to your needs (in pixels).
+// do not include units - this will break math
+
+$xs: 375;
+$sm: 480;
+$md: 768;
+$lg: 1024;
+$xl: 1200;
+$xxl: 1201;
+
+// Media Query mixin utilises the ‘em’ unit and clamp utilises ‘rem’
+
+@function convertPX($px, $type) {
+  @if $type==em {
+    $toem: math.div($px, 16);
+    @return $toem * 1em;
+  } @else if $type==rem {
+    $torem: math.div($px, 10);
+    @return $torem;
+  }
+}
+
+// Perform some pixel conversions and map results
+
+$breakpoints: (
+  'xs': (
+    'min': convertPX($xs, em),
+    'max': convertPX($xs - 0.2, em),
+    'range': convertPX($sm - 0.2, em),
+    'rem': convertPX($xs, rem),
+  ),
+  'sm': (
+    'min': convertPX($sm, em),
+    'max': convertPX($sm - 0.2, em),
+    'range': convertPX($md - 0.2, em),
+    'rem': convertPX($sm, rem),
+  ),
+  'md': (
+    'min': convertPX($md, em),
+    'max': convertPX($md - 0.2, em),
+    'range': convertPX($lg - 0.2, em),
+    'rem': convertPX($md, rem),
+  ),
+  'lg': (
+    'min': convertPX($lg, em),
+    'max': convertPX($lg - 0.2, em),
+    'range': convertPX($xl - 0.2, em),
+    'rem': convertPX($lg, rem),
+  ),
+  'xl': (
+    'min': convertPX($xl, em),
+    'max': convertPX($xl - 0.2, em),
+    'range': convertPX($xxl - 0.2, em),
+    'rem': convertPX($xl, rem),
+  ),
+  'xxl': (
+    'min': convertPX($xxl, em),
+    'max': convertPX($xxl - 0.2, em),
+    'rem': convertPX($xxl, rem),
+  ),
+);
+
+// Insert a media query, either custom or from breakpoint map
+
+@mixin breakpoint($breakpoint, $type: 'min') {
+  // check map for breakpoint key
+  @if map-has-key($breakpoints, $breakpoint) {
+    $breakpoint-val: map-get($breakpoints, $breakpoint);
+    $breakpoint-min: map-get($breakpoint-val, 'min');
+    $breakpoint-max: map-get($breakpoint-val, 'max');
+    $breakpoint-range: map-get($breakpoint-val, 'range');
+
+    // obtain correct result and insert media query
+
+    @if $type== 'min' {
+      @media only screen and (min-width: $breakpoint-min) {
+        @content;
+      }
+    } @else if $type== 'max' {
+      @media only screen and (max-width: $breakpoint-max) {
+        @content;
+      }
+    } @else {
+      @if $breakpoint== 'xxl' {
+        @media only screen and (min-width: $breakpoint-min) {
+          @content;
+        }
+      } @else {
+        @media only screen and (min-width: $breakpoint-min) and (max-width: $breakpoint-range) {
+          @content;
+        }
+      }
+    }
+  }
+
+  // Insert media query based on custom breakpoint (not mapped)
+
+  @else {
+    @if $type== 'min' {
+      @media only screen and (min-width: convertPX($breakpoint, em)) {
+        @content;
+      }
+    } @else {
+      @media only screen and (max-width: convertPX($breakpoint, em)) {
+        @content;
+      }
+    }
+  }
+}
+
+// Insert a clamp for any css property that accepts it
+
+@mixin getclamp($property, $minsize, $maxsize, $minwidth: xs, $maxwidth: xxl) {
+  @if map-has-key($breakpoints, $minwidth) {
+    @if map-has-key($breakpoints, $maxwidth) {
+      $minwidth-values: map-get($breakpoints, $minwidth);
+      $maxwidth-values: map-get($breakpoints, $maxwidth);
+      $minw: map-get($minwidth-values, rem);
+      $maxw: map-get($maxwidth-values, rem);
+      // imagine items plotted on line graph and calculatae slope
+      $slope: math.div(($maxsize - $minsize), ($maxw - $minw));
+      // calculate where line intersects Y axis
+      $yint: (0 - $minw) * $slope + $minsize;
+      // output result
+      #{$property}: clamp(
+        $minsize * 1rem,
+        ($yint * 1rem) + ($slope * 100vw),
+        $maxsize * 1rem
+      );
+    } @else {
+      $minwidth-values: map-get($breakpoints, $minwidth);
+      $minw: map-get($minwidth-values, rem);
+      $maxw: convertPX($maxwidth, rem);
+
+      $slope: math.div(($maxsize - $minsize), ($maxw - $minw));
+
+      $yint: (0 - $minw) * $slope + $minsize;
+
+      #{$property}: clamp(
+        $minsize * 1rem,
+        ($yint * 1rem) + ($slope * 100vw),
+        $maxsize * 1rem
+      );
+    }
+  } @else {
+    $minw: convertPX($minwidth, rem);
+    $maxw: convertPX($maxwidth, rem);
+
+    $slope: math.div(($maxsize - $minsize), ($maxw - $minw));
+
+    $yint: (0 - $minw) * $slope + $minsize;
+
+    #{$property}: clamp(
+      $minsize * 1rem,
+      ($yint * 1rem) + ($slope * 100vw),
+      $maxsize * 1rem
+    );
+  }
+}
+
+// calculate and output a clamp inline
+
+@function insertClamp($minsize, $maxsize, $minwidth, $maxwidth) {
+  @if map-has-key($breakpoints, $minwidth) {
+    @if map-has-key($breakpoints, $maxwidth) {
+      $minwidth-values: map-get($breakpoints, $minwidth);
+      $maxwidth-values: map-get($breakpoints, $maxwidth);
+      $minw: map-get($minwidth-values, rem);
+      $maxw: map-get($maxwidth-values, rem);
+
+      $slope: math.div(($maxsize - $minsize), ($maxw - $minw));
+
+      $yint: (0 - $minw) * $slope + $minsize;
+
+      // declare additional variables so that output is more readable
+      $clampmin: $minsize * 1rem;
+      $clampgrow1: $yint * 1rem;
+      $clampgrow2: $slope * 100vw;
+      $clampmax: $maxsize * 1rem;
+
+      @return clamp(
+        #{$clampmin},
+        #{$clampgrow1} + #{$clampgrow2},
+        #{$clampmax}
+      );
+    } @else {
+      $minwidth-values: map-get($breakpoints, $minwidth);
+      $minw: map-get($minwidth-values, rem);
+      $maxw: convertPX($maxwidth, rem);
+
+      $slope: math.div(($maxsize - $minsize), ($maxw - $minw));
+
+      $yint: (0 - $minw) * $slope + $minsize;
+
+      $clampmin: $minsize * 1rem;
+      $clampgrow1: $yint * 1rem;
+      $clampgrow2: $slope * 100vw;
+      $clampmax: $maxsize * 1rem;
+
+      @return clamp(
+        #{$clampmin},
+        #{$clampgrow1} + #{$clampgrow2},
+        #{$clampmax}
+      );
+    }
+  } @else {
+    $minw: convertPX($minwidth, rem);
+    $maxw: convertPX($maxwidth, rem);
+
+    $slope: math.div(($maxsize - $minsize), ($maxw - $minw));
+
+    $yint: (0 - $minw) * $slope + $minsize;
+
+    $clampmin: $minsize * 1rem;
+    $clampgrow1: $yint * 1rem;
+    $clampgrow2: $slope * 100vw;
+    $clampmax: $maxsize * 1rem;
+
+    @return clamp(#{$clampmin}, #{$clampgrow1} + #{$clampgrow2}, #{$clampmax});
+  }
+}

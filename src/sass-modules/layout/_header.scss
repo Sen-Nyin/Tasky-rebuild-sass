@@ -1,0 +1,12 @@
+@use '../abstracts/' as a;
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--clr-primary-regular);
+  color: var(--clr-white);
+  gap: 0.5rem;
+  padding-inline: var(--size-3);
+  padding-block: var(--size-2);
+}

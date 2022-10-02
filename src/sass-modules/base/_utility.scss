@@ -1,0 +1,32 @@
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.hidden {
+  display: none;
+}
+
+.container {
+  &-sm {
+    max-width: 64rem;
+  }
+  &-md {
+    max-width: 76.8rem;
+  }
+  &-lg {
+    max-width: 102.4rem;
+  }
+  &-xl {
+    max-width: 128rem;
+  }
+  &-2xl {
+    max-width: 153.6rem;
+  }
+}

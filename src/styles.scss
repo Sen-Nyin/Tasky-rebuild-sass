@@ -1,0 +1,14 @@
+@use 'sass-modules/base/reset';
+@use 'sass-modules/base/base';
+@use 'sass-modules/base/typography';
+@use 'sass-modules/base/icons';
+
+@use 'sass-modules/layout/header';
+@use 'sass-modules/layout/main';
+@use 'sass-modules/layout/footer';
+
+@use 'sass-modules/components/buttons';
+@use 'sass-modules/components/sidebar';
+@use 'sass-modules/components/modal';
+
+@use 'sass-modules/base/utility';
