@@ -315,11 +315,12 @@ export default class View {
         taskProjectInput.append(option);
       });
 
-      const priorityBox = this.createEle(
+      const priorityWrapper = this.createEle(
         'div',
-        'modal-radio-wrapper',
+        'modal-form-item-wrapper',
         'modal-task-prio'
       );
+      const priorityBox = this.createEle('div', 'modal-radio-wrapper');
       const priorityLabel = this.createEle('p', 'modal-label');
       priorityLabel.textContent = 'Priority';
       const labelHighPrio = this.createEle(
@@ -365,7 +366,6 @@ export default class View {
       radioLowPrio.value = 'Low';
 
       priorityBox.append(
-        priorityLabel,
         radioHighPrio,
         labelHighPrio,
         radioMediumPrio,
@@ -373,6 +373,7 @@ export default class View {
         radioLowPrio,
         labelLowPrio
       );
+      priorityWrapper.append(priorityLabel, priorityBox);
 
       if (type === 'edit') {
         const [data] = dataArr;
@@ -390,7 +391,7 @@ export default class View {
       this.form.prepend(
         taskTitleInput,
         taskDescription,
-        priorityBox,
+        priorityWrapper,
         projectWrapper,
         dateWrapper
       );

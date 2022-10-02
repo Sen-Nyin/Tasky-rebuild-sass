@@ -32,6 +32,7 @@
       display: flex;
       gap: var(--size-3);
       align-items: center;
+      flex-wrap: wrap;
     }
   }
   &-button-wrapper {
@@ -52,6 +53,7 @@
   &-radio {
     width: 0;
     aspect-ratio: 1;
+    display: none;
     &-label {
       width: max-content;
       padding: var(--size-2);
@@ -59,9 +61,10 @@
     }
     &-wrapper {
       display: flex;
-      gap: var(--size-2);
+      gap: var(--size-1);
       justify-content: flex-start;
       align-items: center;
+      flex-wrap: wrap;
     }
   }
   &-task {
