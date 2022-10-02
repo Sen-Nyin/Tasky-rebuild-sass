@@ -1,3 +1,5 @@
+@use '../abstracts/' as a;
+
 main {
   display: flex;
   position: relative;
@@ -11,7 +13,7 @@ main {
     margin-inline: auto;
     padding: var(--size-6);
     // width: min(102.4rem, 90vw);
-    width: 90%;
+    width: 100%;
   }
   &-sub {
     display: flex;
@@ -92,7 +94,7 @@ main {
     &-checkbox {
       grid-area: check;
       margin-block: auto;
-      margin-inline: var(--size-6);
+      margin-inline: var(--size-4);
       font: inherit;
       color: currentColor;
       width: 1.15em;
@@ -125,7 +127,11 @@ main {
       grid-area: buttons;
       display: flex;
       gap: var(--size-2);
-      justify-content: flex-end;
+      justify-content: flex-start;
+
+      @include a.breakpoint(sm, min) {
+        justify-content: flex-end;
+      }
     }
     &-date {
       grid-area: date;
@@ -163,11 +169,16 @@ main {
     display: grid;
     grid-template-columns: 1fr max-content;
     grid-template-rows: repeat(2, max-content);
-    grid-template-areas: 'title buttons' 'date project';
-    gap: var(--size-2);
+    grid-template-areas: 'title' 'date' 'project' 'buttons';
+    gap: var(--size-4);
     font-weight: 300;
     font-size: var(--size-3);
     transition-duration: 400ms;
+
+    @include a.breakpoint(sm, min) {
+      grid-template-areas: 'title buttons' 'date project';
+      gap: var(--size-2);
+    }
   }
 }
 
