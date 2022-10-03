@@ -397,9 +397,6 @@ export default class View {
       );
     } else if (type === 'project') {
       this.modalTitle.textContent = 'New Project';
-      // const projectLabel = this.createEle('label', 'modal-label');
-      // projectLabel.textContent = 'Project name';
-      // projectLabel.for = 'project-title';
       const projectTitle = this.createEle(
         'input',
         'modal-input',

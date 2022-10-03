@@ -25,7 +25,7 @@
     background: var(--clr-green-regular);
     color: var(--clr-black);
     border-radius: var(--size-1);
-    transition-duration: 400ms;
+    transition-duration: var(--transition-time);
     font-size: var(--size-3);
   }
   &-toggle-projects {
@@ -38,7 +38,7 @@
     background: var(--clr-primary);
     color: var(--clr-white);
     font-size: var(--size-3);
-    transition-duration: 400ms;
+    transition-duration: var(--transition-time);
     &:hover {
       background: var(--clr-primary-dark);
     }
@@ -53,7 +53,7 @@
     color: var(--clr-black);
     text-transform: uppercase;
     border-radius: var(--size-1);
-    transition-duration: 400ms;
+    transition-duration: var(--transition-time);
     font-size: var(--size-3);
     &:hover {
       background: var(--clr-green-regular);

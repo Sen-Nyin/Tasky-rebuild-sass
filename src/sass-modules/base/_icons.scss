@@ -1,6 +1,6 @@
 .icon {
   fill: currentColor;
-  transition-duration: 400ms;
+  transition-duration: var(--transition-time);
   &:hover {
     transform: scale(1.25);
   }

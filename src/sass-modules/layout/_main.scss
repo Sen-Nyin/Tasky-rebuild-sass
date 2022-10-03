@@ -12,7 +12,6 @@ main {
     align-items: center;
     margin-inline: auto;
     padding: var(--size-6);
-    // width: min(102.4rem, 90vw);
     width: 100%;
   }
   &-sub {
@@ -49,7 +48,7 @@ main {
     padding: var(--size-1);
     color: var(--clr-black);
     border-radius: var(--size-1);
-    transition-duration: 400ms;
+    transition-duration: var(--transition-time);
 
     &:hover {
       background: var(--clr-primary-xlight);
@@ -74,7 +73,7 @@ main {
   }
   &-notask-text {
     text-align: center;
-    font-weight: 300;
+    font-weight: var(--fnt-wt-thin);
     font-size: var(--size-6);
   }
   &-complete {
@@ -154,12 +153,12 @@ main {
     &-description {
       margin-top: var(--size-4);
       font-size: var(--size-4);
-      font-weight: 300;
+      font-weight: var(--fnt-wt-thin);
     }
 
     &-complete {
       text-decoration: line-through;
-      transition-duration: 400ms;
+      transition-duration: var(--transition-time);
     }
   }
   &-details {
@@ -173,9 +172,9 @@ main {
     grid-template-rows: repeat(2, max-content);
     grid-template-areas: 'title' 'date' 'project' 'buttons';
     gap: var(--size-4);
-    font-weight: 300;
+    font-weight: var(--fnt-wt-thin);
     font-size: var(--size-3);
-    transition-duration: 400ms;
+    transition-duration: var(--transition-time);
 
     @include a.breakpoint(sm, min) {
       grid-template-areas: 'title buttons' 'date project';

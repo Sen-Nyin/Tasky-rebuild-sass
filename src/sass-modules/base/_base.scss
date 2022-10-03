@@ -5,12 +5,22 @@
   --header-bg-clr: var(--clr-primary);
   --footer-bg-clr: var(--clr-primary);
   --sidebar-bg-clr: var(--clr-neutral-200);
-  --body-bg-clr: var(--clr-neutral-100);
+  --body-bg-clr: var(--clr-white);
+  --transition-time: 400ms;
+  --fnt-sz-default: var(--size-4);
+  --fnt-wt-default: 400;
+  --fnt-clr-default: var(--clr-black);
+  --clr-white: var(--clr-neutral-100);
+  --clr-black: var(--clr-neutral-800);
 
   // Set 1 rem = 10px
   font-size: 62.5%;
-  --fnt-sz-default: 1.6rem;
+
   --fnt-fam-default: 'Roboto', sans-serif;
+  --fnt-wt-thin: 300;
+  --fnt-wt-reg: 400;
+  --fnt-wt-bold: 700;
+  --fnt-wt-heavy: 900;
 
   // Colours
   --clr-primary: #{a.$rose-500};
@@ -58,4 +68,6 @@ body {
   min-height: 100vh;
   font-family: var(--fnt-fam-default);
   font-size: var(--fnt-sz-default);
+  font-weight: var(--fnt-wt-default);
+  color: var(--fnt-clr-default);
 }

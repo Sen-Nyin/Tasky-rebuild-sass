@@ -30,8 +30,10 @@
 
     &-item-wrapper {
       display: flex;
+      flex-direction: column;
+      justify-content: center;
       gap: var(--size-3);
-      align-items: center;
+      align-items: flex-start;
       flex-wrap: wrap;
     }
   }
@@ -46,7 +48,7 @@
     width: 100%;
   }
   &-label {
-    font-weight: 300;
+    font-weight: var(--fnt-wt-thin);
     text-transform: uppercase;
     font-size: var(--size-3);
   }
