@@ -33,24 +33,20 @@ export default class View {
   // #################### [ FORM EVALUATION ] ##################
 
   get _taskDetails() {
-    const title = this.findEle('[data-label="modal-task-title"]');
-    const date = this.findEle('[data-label="modal-task-date"]');
-    const project = this.findEle('[data-label="modal-task-project"]');
+    const title = this.findEle('[data-label="modal-task-title"]').value;
+    const date = this.findEle('[data-label="modal-task-date"]').value;
+    const project = this.findEle('[data-label="modal-task-project"]').value;
     const priorities = this.findEles('input[name="priority"]');
-    const description = this.findEle('[data-label="modal-task-description"]');
+    const description = this.findEle(
+      '[data-label="modal-task-description"]'
+    ).value;
     let selectedPriority;
     priorities.forEach((priority) => {
       if (priority.checked) {
         selectedPriority = priority.value;
       }
     });
-    if (
-      title.value &&
-      date.value &&
-      selectedPriority &&
-      project.value &&
-      description.value
-    ) {
+    if (title && date && selectedPriority && project && description) {
       return {
         title: title.value,
         description: description.value,
@@ -274,6 +270,7 @@ export default class View {
       taskTitleInput.type = 'text';
       taskTitleInput.id = 'modal-task-title';
       taskTitleInput.placeholder = 'Task title';
+      taskTitleInput.required = true;
 
       const taskDescription = this.createEle('textarea', 'modal-task-desc');
       taskDescription.placeholder = 'Task description...';
@@ -292,6 +289,7 @@ export default class View {
       taskDueDateInput.dataset.label = 'modal-task-date';
       taskDueDateInput.type = 'date';
       taskDueDateInput.id = 'modal-task-date';
+      taskDueDateInput.required = true;
       dateWrapper.append(taskDueDateInputLabel, taskDueDateInput);
 
       const projectWrapper = this.createEle('div', 'modal-form-item-wrapper');
@@ -310,9 +308,13 @@ export default class View {
       const projects = this.getProjects();
       projects.forEach((project) => {
         const option = this.createEle('option');
+
         option.value = project.name;
         option.textContent = project.name;
         taskProjectInput.append(option);
+        if (this.labelTaskListHeading.textContent === project.name) {
+          taskProjectInput.value = project.name;
+        }
       });
 
       const priorityWrapper = this.createEle(
@@ -446,6 +448,7 @@ export default class View {
     this.form.addEventListener('click', (e) => {
       const target = e.target;
       if (target.dataset.label === 'close-modal') {
+        this.clear(this.form);
         this.modal.close();
       }
     });
