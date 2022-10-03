@@ -46,13 +46,13 @@ export default class View {
         selectedPriority = priority.value;
       }
     });
-    if (title && date && selectedPriority && project && description) {
+    if (title && date) {
       return {
-        title: title.value,
-        description: description.value,
-        date: date.value,
-        priority: selectedPriority,
-        project: project.value,
+        title: title,
+        description: description || 'No description',
+        date: date,
+        priority: selectedPriority || 'Low',
+        project: project,
       };
     }
   }
