@@ -408,6 +408,7 @@ export default class View {
       projectTitle.type = 'text';
       projectTitle.id = 'project-title';
       projectTitle.placeholder = 'Project title...';
+      projectTitle.required = true;
       this.form.append(projectTitle);
     }
 
