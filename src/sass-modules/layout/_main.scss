@@ -37,7 +37,7 @@ main {
   flex-direction: column;
   gap: var(--size-2);
   background-color: var(--clr-neutral-50);
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: var(--default-shadow);
   border-radius: var(--size-1);
   padding: var(--size-4);
   width: var(--size-52);

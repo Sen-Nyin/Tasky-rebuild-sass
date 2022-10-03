@@ -4,6 +4,8 @@
   padding: 0;
   width: min(76.8rem, 90vw);
   background: var(--clr-white);
+  border: none;
+  box-shadow: var(--default-shadow);
   border-radius: var(--size-1);
   &:backdrop {
     background: var(--clr-black);
