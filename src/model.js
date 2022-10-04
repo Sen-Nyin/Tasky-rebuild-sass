@@ -19,11 +19,11 @@ export default class Model {
     return edittask;
   }
 
-  compare(a, b) {
+  compare = (a, b) => {
     if (a.complete > b.complete) return 1;
     if (a.complete < b.complete) return -1;
     return 0;
-  }
+  };
 
   filterTaskList(filter) {
     let tasks;
@@ -31,7 +31,6 @@ export default class Model {
       tasks = this.tasks;
     } else if (filter === 'today') {
       const today = new Date().toDateString();
-      console.log('Today: ', today);
       tasks = this.tasks.filter(
         (task) => new Date(task.duedate).toDateString() === today
       );
@@ -61,14 +60,17 @@ export default class Model {
   eventOnProjectChange(handler) {
     this.onProjectChange = handler;
   }
+
   _commitTaskChange(tasks) {
     this.onTaskChange(tasks);
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
+
   _commitProjectChange(projects) {
     this.onProjectChange(projects);
     localStorage.setItem('projects', JSON.stringify(projects));
   }
+
   updateLists(details, type) {
     if (type === 'task') {
       this.addTask(details);
@@ -142,6 +144,7 @@ export default class Model {
     this.projects.push(project);
     this._commitProjectChange(this.projects);
   }
+
   deleteProject(id) {
     const [toDelete] = this.projects.filter((project) => project.id === id);
     this.tasks = this.tasks.map((task) =>
@@ -158,6 +161,7 @@ export default class Model {
         : task
     );
     this.projects = this.projects.filter((project) => project.id !== id);
+    this.filterTaskList('all');
     this._commitTaskChange(this.tasks);
     this._commitProjectChange(this.projects);
   }
