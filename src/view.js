@@ -526,6 +526,7 @@ export default class View {
           const task = this._taskDetails;
           task.id = Number(e.submitter.dataset.taskid);
           handler(task, type);
+          this.modal.close();
         }
       }
     });
