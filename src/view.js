@@ -289,6 +289,7 @@ export default class View {
     closeButton.dataset.label = 'close-modal';
     closeButton.id = 'close-modal';
     closeButton.textContent = 'Cancel';
+    closeButton.type = 'button';
 
     const submitButton = View.createEle(
       'button',
