@@ -493,6 +493,7 @@ export default class View {
       if (target.dataset.label === 'close-modal') {
         this.clear(this.form);
         this.modal.close();
+        this.warning.textContent = '';
       }
     });
   }
