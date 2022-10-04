@@ -199,7 +199,7 @@ export default class View {
         descriptionText.textContent = task.description;
 
         const taskDate = this.createEle('span', 'tasks-list-item-date');
-        if (new Date().toDateString() > new Date(task.duedate).toDateString()) {
+        if (new Date().toISOString() > new Date(task.duedate).toISOString()) {
           const days = Math.round(
             Math.abs(
               (new Date() - new Date(task.duedate)) / (1000 * 60 * 60 * 24)
