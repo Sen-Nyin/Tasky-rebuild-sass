@@ -206,3 +206,7 @@ details[open] > summary {
 input[type='radio']:not(:checked) + label {
   opacity: 0.3;
 }
+
+input:has(:not(:placeholder-shown)):not(:valid) {
+  outline: 2px solid var(--clr-primary);
+}

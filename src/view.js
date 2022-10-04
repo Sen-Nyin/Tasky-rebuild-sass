@@ -28,38 +28,78 @@ export default class View {
     this.modalTitle = this.findEle('[data-label="modal-title"]');
     this.modal = this.findEle('[data-label="modal"]');
     this.form = this.findEle('[data-label="modal-task-form"]');
+    this.warning = this.findEle('[data-label="form-warning"]');
   }
 
   // #################### [ FORM EVALUATION ] ##################
 
   get _taskDetails() {
-    const title = this.findEle('[data-label="modal-task-title"]').value;
-    const date = this.findEle('[data-label="modal-task-date"]').value;
-    const project = this.findEle('[data-label="modal-task-project"]').value;
+    const title = this.findEle('[data-label="modal-task-title"]');
+    const date = this.findEle('[data-label="modal-task-date"]');
+    const project = this.findEle('[data-label="modal-task-project"]');
     const priorities = this.findEles('input[name="priority"]');
-    const description = this.findEle(
-      '[data-label="modal-task-description"]'
-    ).value;
+    const description = this.findEle('[data-label="modal-task-description"]');
     let selectedPriority;
     priorities.forEach((priority) => {
       if (priority.checked) {
         selectedPriority = priority.value;
       }
     });
-    if (title && date) {
+    let warning;
+    if (!title.value && !date.value) {
+      warning = 'Title and due date are required!';
+      title.classList.add('invalid');
+      date.classList.add('invalid');
+    } else if (!title.value) {
+      warning = 'Title is required!';
+      title.classList.add('invalid');
+      date.classList.remove('invalid');
+    } else if (!date.value) {
+      warning = 'Date is required!';
+      title.classList.remove('invalid');
+      date.classList.add('invalid');
+    } else if (new Date().toISOString() > new Date(date.value).toISOString()) {
+      warning = 'Date cannot be in the past!';
+      title.classList.remove('invalid');
+      date.classList.add('invalid');
+    }
+    if (warning) {
+      this.warning.textContent = warning;
+    } else {
+      this.warning.textContent = '';
       return {
-        title: title,
-        description: description || 'No description',
-        date: date,
+        title: title.value,
+        description: description.value || 'No description',
+        date: date.value,
         priority: selectedPriority || 'Low',
-        project: project,
+        project: project.value,
       };
     }
   }
 
   get _projectDetails() {
     const projectTitle = this.findEle('[data-label="project-title"]');
-    if (projectTitle.value) return projectTitle.value;
+    let warning;
+
+    if (!projectTitle.value) {
+      warning = 'Project title is required';
+      projectTitle.classList.add('invalid');
+    } else {
+      const projects = this.getProjects();
+      console.log(projects);
+      projects.forEach((project) => {
+        if (project.name === projectTitle.value) {
+          warning = 'Project already exists. Choose another name';
+          projectTitle.classList.add('invalid');
+        }
+      });
+    }
+    if (warning) {
+      this.warning.textContent = warning;
+    } else {
+      this.warning.textContent = '';
+      return projectTitle.value;
+    }
   }
 
   // #################### [ UTILITY FUNCTIONS ] ##################
@@ -270,7 +310,6 @@ export default class View {
       taskTitleInput.type = 'text';
       taskTitleInput.id = 'modal-task-title';
       taskTitleInput.placeholder = 'Task title';
-      taskTitleInput.required = true;
 
       const taskDescription = this.createEle('textarea', 'modal-task-desc');
       taskDescription.placeholder = 'Task description...';
@@ -278,7 +317,7 @@ export default class View {
       taskDescription.setAttribute('rows', '6');
 
       const dateWrapper = this.createEle(
-        'div',
+        'fieldset',
         'modal-form-item-wrapper',
         'modal-task-date'
       );
@@ -289,10 +328,13 @@ export default class View {
       taskDueDateInput.dataset.label = 'modal-task-date';
       taskDueDateInput.type = 'date';
       taskDueDateInput.id = 'modal-task-date';
-      taskDueDateInput.required = true;
+      taskDueDateInput.placeholder = 'Due date...';
       dateWrapper.append(taskDueDateInputLabel, taskDueDateInput);
 
-      const projectWrapper = this.createEle('div', 'modal-form-item-wrapper');
+      const projectWrapper = this.createEle(
+        'fieldset',
+        'modal-form-item-wrapper'
+      );
       const taskProjectInputLabel = this.createEle('label', 'modal-label');
       taskProjectInputLabel.textContent = 'Project';
       taskProjectInputLabel.for = 'modal-project-select';
@@ -318,7 +360,7 @@ export default class View {
       });
 
       const priorityWrapper = this.createEle(
-        'div',
+        'fieldset',
         'modal-form-item-wrapper',
         'modal-task-prio'
       );
@@ -408,7 +450,7 @@ export default class View {
       projectTitle.type = 'text';
       projectTitle.id = 'project-title';
       projectTitle.placeholder = 'Project title...';
-      projectTitle.required = true;
+
       this.form.append(projectTitle);
     }
 
@@ -466,14 +508,17 @@ export default class View {
   }
   eventUpdateLists(handler) {
     this.form.addEventListener('submit', (e) => {
+      e.preventDefault();
       const type = e.submitter.dataset.subtype;
       if (type === 'task') {
         if (this._taskDetails) {
           handler(this._taskDetails, type);
+          this.modal.close();
         }
       } else if (type === 'project') {
         if (this._projectDetails) {
           handler(this._projectDetails, type);
+          this.modal.close();
         }
       } else if (type === 'edit') {
         if (this._taskDetails) {

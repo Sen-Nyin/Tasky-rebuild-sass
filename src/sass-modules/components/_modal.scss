@@ -97,8 +97,45 @@
 }
 select,
 input[type='date'] {
-  border: 1px solid #cccccc;
+  border: 1px solid var(--clr-neutral-300);
 }
 ::placeholder {
-  color: #aaaaaa;
+  color: var(--clr-neutral-400);
+}
+
+.warning {
+  margin: var(--size-4);
+  padding: var(--size-2);
+  outline: 2px dotted var(--clr-primary);
+  font-size: var(--size-3);
+  color: var(--clr-primary);
+  font-weight: var(--fnt-wt-thin);
+}
+.invalid {
+  outline: 2px solid var(--clr-primary);
+}
+
+dialog > p[data-label='form-warning']:empty {
+  display: none;
+}
+
+// form:invalid #submit {
+//   opacity: 0.3;
+//   pointer-events: none;
+// }
+input,
+select {
+  border-radius: var(--size-1);
+}
+
+// input:not(:placeholder-shown):not(:valid) {
+//   outline: 1px solid var(--clr-primary-light);
+// }
+
+// input:not(:placeholder-shown):not(:valid) {
+//   outline: 1px solid var(--clr-primary-light);
+// }
+
+input:has(:not(:placeholder-shown):not(:valid)) {
+  outline: 1px solid var(--clr-primary-light);
 }
