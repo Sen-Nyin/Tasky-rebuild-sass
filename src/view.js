@@ -80,13 +80,11 @@ export default class View {
   get _projectDetails() {
     const projectTitle = this.findEle('[data-label="project-title"]');
     let warning;
-
     if (!projectTitle.value) {
       warning = 'Project title is required';
       projectTitle.classList.add('invalid');
     } else {
       const projects = this.getProjects();
-      console.log(projects);
       projects.forEach((project) => {
         if (project.name === projectTitle.value) {
           warning = 'Project already exists. Choose another name';
@@ -426,7 +424,6 @@ export default class View {
         taskProjectInput.value = data.project;
         taskDescription.value = data.description;
         submitButton.dataset.taskid = data.id;
-        console.log(data);
         if (data.priority === 'High') radioHighPrio.checked = true;
         if (data.priority === 'Medium') radioMediumPrio.checked = true;
         if (data.priority === 'Low') radioLowPrio.checked = true;
@@ -497,16 +494,19 @@ export default class View {
       }
     });
   }
+
   eventNewTask() {
     this.newTaskBtn.addEventListener('click', (e) => {
       this.buildModal('task');
     });
   }
+
   eventNewProject() {
     this.newProjectBtn.addEventListener('click', (e) => {
       this.buildModal('project');
     });
   }
+
   eventUpdateLists(handler) {
     this.form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -531,6 +531,7 @@ export default class View {
       }
     });
   }
+
   eventClickToEditTask(handler) {
     this.taskList.addEventListener('click', (e) => {
       const target = e.target;
@@ -541,6 +542,7 @@ export default class View {
       }
     });
   }
+
   eventDeleteTask(handler) {
     this.taskList.addEventListener('click', (e) => {
       const target = e.target;
@@ -550,6 +552,7 @@ export default class View {
       }
     });
   }
+
   eventCompleteTask(handler) {
     this.taskList.addEventListener('change', (e) => {
       if (e.target.type === 'checkbox') {
@@ -558,15 +561,19 @@ export default class View {
       }
     });
   }
+
   eventDeleteProject(handler) {
     this.projectList.addEventListener('click', (e) => {
+      e.stopPropagation();
       const button = e.target.closest('button');
       if (button?.dataset.label === 'delete-button') {
         const id = button.closest('li').dataset.projectid;
         handler(Number(id));
+        this.labelTaskListHeading.textContent = 'All';
       }
     });
   }
+
   eventFilter(handler) {
     this.filterList.addEventListener('click', (e) => {
       if (e.target.closest('li')?.dataset.label === 'filter') {
@@ -577,6 +584,7 @@ export default class View {
       }
     });
     this.projectList.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (e.target.closest('li')?.dataset.label === 'filter') {
         const filter = e.target.closest('li').dataset.filter;
         this.labelTaskListHeading.textContent = this.capitalise(filter);

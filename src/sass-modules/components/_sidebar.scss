@@ -30,6 +30,7 @@
     padding-top: var(--size-2);
   }
   &-item {
+    cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;

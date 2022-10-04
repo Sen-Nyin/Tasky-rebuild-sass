@@ -57,6 +57,7 @@ export default class Model {
   eventOnTaskChange(handler) {
     this.onTaskChange = handler;
   }
+
   eventOnProjectChange(handler) {
     this.onProjectChange = handler;
   }
@@ -161,8 +162,8 @@ export default class Model {
         : task
     );
     this.projects = this.projects.filter((project) => project.id !== id);
-    this.filterTaskList('all');
     this._commitTaskChange(this.tasks);
     this._commitProjectChange(this.projects);
+    this.filterTaskList('all');
   }
 }

@@ -38,15 +38,25 @@ class Controller {
   }
 
   onTaskChange = (tasks) => this.view.displayTasks(tasks);
+
   onProjectChange = (projects) => this.view.displayProjects(projects);
+
   handleProjectsRequest = () => this.model._projects;
+
   handleUpdateLists = (item, type) => this.model.updateLists(item, type);
+
   handleGetEditTask = (id) => this.model.getTaskToEdit(id);
+
   handleEditTask = (id) => this.model.editTask(id);
+
   handleDeleteTask = (id) => this.model.deleteTask(id);
+
   handleCompleteTask = (id) => this.model.completeTask(id);
+
   handleAddProject = (project) => this.model.addProject(project);
+
   handleDeleteProject = (id) => this.model.deleteProject(id);
+
   handleFilterTasks = (filter) => this.model.filterTaskList(filter);
 }
 
