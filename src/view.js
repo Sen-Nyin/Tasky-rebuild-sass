@@ -585,7 +585,6 @@ export default class View {
     });
     this.projectList.addEventListener('click', (e) => {
       e.stopPropagation();
-      // if (e.target.closest('li')?.dataset.label === 'filter') {
       if (e.target.parentElement.dataset?.label === 'filter') {
         const filter = e.target.closest('li').dataset.filter;
         this.labelTaskListHeading.textContent = this.capitalise(filter);
