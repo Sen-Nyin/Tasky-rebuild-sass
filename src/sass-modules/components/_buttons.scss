@@ -39,6 +39,10 @@
     color: var(--clr-white);
     font-size: var(--size-3);
     transition-duration: var(--transition-time);
+    &-text {
+      flex: 1;
+      text-align: center;
+    }
     &:hover {
       background: var(--clr-primary-dark);
     }
