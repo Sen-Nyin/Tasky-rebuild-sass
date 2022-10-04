@@ -1,44 +1,82 @@
 'use: strict';
+
 import sprite from './assets/sprite.svg';
 
 // ######################[ VIEW ]####################
 
 export default class View {
+  static createEle(...args) {
+    const [ele, ...styles] = args;
+    const element = document.createElement(ele);
+    styles.forEach((style) => element.classList.add(style));
+    return element;
+  }
+
+  static createSVG(...args) {
+    const [icon, ...styles] = args;
+    const w3ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(w3ns, 'svg');
+    const use = document.createElementNS(w3ns, 'use');
+    use.setAttribute('href', `${sprite}#icon-${icon}`);
+    styles.forEach((style) => svg.classList.add(style));
+    svg.append(use);
+    return svg;
+  }
+
+  static findEle(selector) {
+    const element = document.querySelector(selector);
+    return element;
+  }
+
+  static findEles(selector) {
+    const element = document.querySelectorAll(selector);
+    return element;
+  }
+
+  static capitalise(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  static clear = (target) => {
+    while (target.firstElementChild) target.firstElementChild.remove();
+  };
+
   constructor() {
-    this.header = this.findEle('header');
-    this.navContainer = this.findEle('[data-label="nav-container"]');
-    this.sidebar = this.findEle('[data-label="nav-list"]');
-    this.burgerBtn = this.findEle('[data-label="toggle-navigation"]');
+    this.header = View.findEle('header');
+    this.navContainer = View.findEle('[data-label="nav-container"]');
+    this.sidebar = View.findEle('[data-label="nav-list"]');
+    this.burgerBtn = View.findEle('[data-label="toggle-navigation"]');
 
     // ########## [ NEW BUTTONS ]
-    this.newProjectBtn = this.findEle('[data-label="add-project-btn"]');
-    this.newTaskBtn = this.findEle('[data-label="add-task-btn"]');
+    this.newProjectBtn = View.findEle('[data-label="add-project-btn"]');
+    this.newTaskBtn = View.findEle('[data-label="add-task-btn"]');
 
     // ########## [ TASK LIST ]
-    this.labelTaskListHeading = this.findEle('[data-label="task-list-title"]');
-    this.taskList = this.findEle('[data-label="task-list"]');
-    this.filterBtn = this.findEle('[data-label="filter-button"]');
-    this.filterList = this.findEle('[data-label="filter-list"]');
+    this.labelTaskListHeading = View.findEle('[data-label="task-list-title"]');
+    this.taskList = View.findEle('[data-label="task-list"]');
+    this.filterBtn = View.findEle('[data-label="filter-button"]');
+    this.filterList = View.findEle('[data-label="filter-list"]');
 
     // ########## [ PROJECT LIST ]
-    this.projectBtn = this.findEle('[data-label="projects-button"]');
-    this.projectList = this.findEle('[data-label="project-list"]');
+    this.projectBtn = View.findEle('[data-label="projects-button"]');
+    this.projectList = View.findEle('[data-label="project-list"]');
 
     // ##########[ MODAL ]
-    this.modalTitle = this.findEle('[data-label="modal-title"]');
-    this.modal = this.findEle('[data-label="modal"]');
-    this.form = this.findEle('[data-label="modal-task-form"]');
-    this.warning = this.findEle('[data-label="form-warning"]');
+    this.modalTitle = View.findEle('[data-label="modal-title"]');
+    this.modal = View.findEle('[data-label="modal"]');
+    this.form = View.findEle('[data-label="modal-task-form"]');
+    this.warning = View.findEle('[data-label="form-warning"]');
   }
 
   // #################### [ FORM EVALUATION ] ##################
 
-  get _taskDetails() {
-    const title = this.findEle('[data-label="modal-task-title"]');
-    const date = this.findEle('[data-label="modal-task-date"]');
-    const project = this.findEle('[data-label="modal-task-project"]');
-    const priorities = this.findEles('input[name="priority"]');
-    const description = this.findEle('[data-label="modal-task-description"]');
+  taskDetails() {
+    const title = View.findEle('[data-label="modal-task-title"]');
+    const date = View.findEle('[data-label="modal-task-date"]');
+    const project = View.findEle('[data-label="modal-task-project"]');
+    const priorities = View.findEles('input[name="priority"]');
+    const description = View.findEle('[data-label="modal-task-description"]');
+    let details;
     let selectedPriority;
     priorities.forEach((priority) => {
       if (priority.checked) {
@@ -67,7 +105,7 @@ export default class View {
       this.warning.textContent = warning;
     } else {
       this.warning.textContent = '';
-      return {
+      details = {
         title: title.value,
         description: description.value || 'No description',
         date: date.value,
@@ -75,10 +113,11 @@ export default class View {
         project: project.value,
       };
     }
+    return details;
   }
 
-  get _projectDetails() {
-    const projectTitle = this.findEle('[data-label="project-title"]');
+  projectDetails() {
+    const projectTitle = View.findEle('[data-label="project-title"]');
     let warning;
     if (!projectTitle.value) {
       warning = 'Project title is required';
@@ -96,38 +135,8 @@ export default class View {
       this.warning.textContent = warning;
     } else {
       this.warning.textContent = '';
-      return projectTitle.value;
     }
-  }
-
-  // #################### [ UTILITY FUNCTIONS ] ##################
-
-  createEle(...args) {
-    const [ele, ...styles] = args;
-    const element = document.createElement(ele);
-    styles.forEach((style) => element.classList.add(style));
-    return element;
-  }
-  createSVG(...args) {
-    const [icon, ...styles] = args;
-    const w3ns = 'http://www.w3.org/2000/svg';
-    const svg = document.createElementNS(w3ns, 'svg');
-    const use = document.createElementNS(w3ns, 'use');
-    use.setAttribute('href', `${sprite}#icon-${icon}`);
-    styles.forEach((style) => svg.classList.add(style));
-    svg.append(use);
-    return svg;
-  }
-  findEle(selector) {
-    const element = document.querySelector(selector);
-    return element;
-  }
-  findEles(selector) {
-    const element = document.querySelectorAll(selector);
-    return element;
-  }
-  capitalise(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    return projectTitle.value;
   }
 
   // ####################[ DOM TOGGLES ] ##################
@@ -141,9 +150,11 @@ export default class View {
     this.projectBtn.addEventListener('click', this.toggleProjects);
 
   toggleNav = () => this.navContainer.classList.toggle('sidebar-hidden');
+
   toggleFilter = () => this.filterList.classList.toggle('hidden');
+
   toggleProjects = () => {
-    const expandedIcon = this.findEle('[data-label="expand-icon"]');
+    const expandedIcon = View.findEle('[data-label="expand-icon"]');
     if (this.projectList.hasAttribute('data-visible')) {
       this.projectBtn.setAttribute('aria-expanded', false);
       expandedIcon.setAttribute('href', `${sprite}#icon-expand`);
@@ -155,31 +166,26 @@ export default class View {
     this.projectList.toggleAttribute('data-visible');
   };
 
-  // ####################[ DOM CLEARING ] ##################
-  clear = (target) => {
-    while (target.firstElementChild) target.firstElementChild.remove();
-  };
-
   // ################## [ DOM INJECTION ] ##################
   displayTasks(tasks) {
-    this.clear(this.taskList);
+    View.clear(this.taskList);
 
     if (!tasks.length) {
-      const message = this.createEle('p', 'tasks-notask-text');
+      const message = View.createEle('p', 'tasks-notask-text');
       message.textContent = 'No tasks, go take a walk';
       this.taskList.append(message);
     } else {
       tasks.forEach((task) => {
-        const alarmIcon = this.createSVG('alarm', 'icon', 'icon-4');
-        const labelIcon = this.createSVG('label', 'icon', 'icon-4');
-        const deleteIcon = this.createSVG('delete', 'icon', 'icon-5');
-        const editIcon = this.createSVG('edit', 'icon', 'icon-5');
+        const alarmIcon = View.createSVG('alarm', 'icon', 'icon-4');
+        const labelIcon = View.createSVG('label', 'icon', 'icon-4');
+        const deleteIcon = View.createSVG('delete', 'icon', 'icon-5');
+        const editIcon = View.createSVG('edit', 'icon', 'icon-5');
 
-        const taskElement = this.createEle('li', 'tasks-list-item');
+        const taskElement = View.createEle('li', 'tasks-list-item');
         taskElement.dataset.taskid = task.id;
 
-        const detailsElement = this.createEle('details', 'tasks-details');
-        const summaryElement = this.createEle('summary', 'tasks-summary');
+        const detailsElement = View.createEle('details', 'tasks-details');
+        const summaryElement = View.createEle('summary', 'tasks-summary');
 
         if (task.priority === 'High')
           taskElement.classList.add('priority-high');
@@ -187,16 +193,16 @@ export default class View {
           taskElement.classList.add('priority-medium');
         if (task.priority === 'Low') taskElement.classList.add('priority-low');
 
-        const taskText = this.createEle('span', 'tasks-list-item-title');
+        const taskText = View.createEle('span', 'tasks-list-item-title');
         taskText.textContent = task.task;
 
-        const descriptionText = this.createEle(
+        const descriptionText = View.createEle(
           'p',
           'tasks-list-item-description'
         );
         descriptionText.textContent = task.description;
 
-        const taskDate = this.createEle('span', 'tasks-list-item-date');
+        const taskDate = View.createEle('span', 'tasks-list-item-date');
         if (new Date().toISOString() > new Date(task.duedate).toISOString()) {
           const days = Math.round(
             Math.abs(
@@ -225,17 +231,17 @@ export default class View {
 
         taskDate.prepend(alarmIcon);
 
-        const taskProject = this.createEle('span', 'tasks-list-item-project');
+        const taskProject = View.createEle('span', 'tasks-list-item-project');
         taskProject.textContent = task.project;
         taskProject.prepend(labelIcon);
 
-        const checkbox = this.createEle('input', 'tasks-list-item-checkbox');
+        const checkbox = View.createEle('input', 'tasks-list-item-checkbox');
         checkbox.type = 'checkbox';
-        const buttonWrapper = this.createEle(
+        const buttonWrapper = View.createEle(
           'div',
           'tasks-list-item-buttons-wrapper'
         );
-        const deleteButton = this.createEle(
+        const deleteButton = View.createEle(
           'button',
           'btn',
           'btn-icon-only',
@@ -245,7 +251,7 @@ export default class View {
         deleteButton.append(deleteIcon);
         deleteButton.dataset.label = 'delete-button';
 
-        const editButton = this.createEle(
+        const editButton = View.createEle(
           'button',
           'btn',
           'btn-icon-only',
@@ -274,17 +280,17 @@ export default class View {
   }
 
   buildModal = (type, dataArr) => {
-    this.clear(this.form);
+    View.clear(this.form);
 
-    const buttonContainer = this.createEle('div', 'modal-button-wrapper');
+    const buttonContainer = View.createEle('div', 'modal-button-wrapper');
     buttonContainer.dataset.label = 'form-button-container';
 
-    const closeButton = this.createEle('button', 'btn', 'btn-form', 'btn--red');
+    const closeButton = View.createEle('button', 'btn', 'btn-form', 'btn--red');
     closeButton.dataset.label = 'close-modal';
     closeButton.id = 'close-modal';
     closeButton.textContent = 'Cancel';
 
-    const submitButton = this.createEle(
+    const submitButton = View.createEle(
       'button',
       'btn',
       'btn-form',
@@ -299,7 +305,7 @@ export default class View {
     if (type === 'task' || type === 'edit') {
       this.modalTitle.textContent = type === 'task' ? 'New Task' : 'Edit Task';
 
-      const taskTitleInput = this.createEle(
+      const taskTitleInput = View.createEle(
         'input',
         'modal-input',
         'modal-task-title'
@@ -309,34 +315,34 @@ export default class View {
       taskTitleInput.id = 'modal-task-title';
       taskTitleInput.placeholder = 'Task title';
 
-      const taskDescription = this.createEle('textarea', 'modal-task-desc');
+      const taskDescription = View.createEle('textarea', 'modal-task-desc');
       taskDescription.placeholder = 'Task description...';
       taskDescription.dataset.label = 'modal-task-description';
       taskDescription.setAttribute('rows', '6');
 
-      const dateWrapper = this.createEle(
+      const dateWrapper = View.createEle(
         'fieldset',
         'modal-form-item-wrapper',
         'modal-task-date'
       );
-      const taskDueDateInputLabel = this.createEle('label', 'modal-label');
+      const taskDueDateInputLabel = View.createEle('label', 'modal-label');
       taskDueDateInputLabel.textContent = 'Due';
       taskDueDateInputLabel.for = 'modal-task-date';
-      const taskDueDateInput = this.createEle('input', 'modal-input');
+      const taskDueDateInput = View.createEle('input', 'modal-input');
       taskDueDateInput.dataset.label = 'modal-task-date';
       taskDueDateInput.type = 'date';
       taskDueDateInput.id = 'modal-task-date';
       taskDueDateInput.placeholder = 'Due date...';
       dateWrapper.append(taskDueDateInputLabel, taskDueDateInput);
 
-      const projectWrapper = this.createEle(
+      const projectWrapper = View.createEle(
         'fieldset',
         'modal-form-item-wrapper'
       );
-      const taskProjectInputLabel = this.createEle('label', 'modal-label');
+      const taskProjectInputLabel = View.createEle('label', 'modal-label');
       taskProjectInputLabel.textContent = 'Project';
       taskProjectInputLabel.for = 'modal-project-select';
-      const taskProjectInput = this.createEle(
+      const taskProjectInput = View.createEle(
         'select',
         'modal-input',
         'modal-task-project'
@@ -347,7 +353,7 @@ export default class View {
 
       const projects = this.getProjects();
       projects.forEach((project) => {
-        const option = this.createEle('option');
+        const option = View.createEle('option');
 
         option.value = project.name;
         option.textContent = project.name;
@@ -357,15 +363,15 @@ export default class View {
         }
       });
 
-      const priorityWrapper = this.createEle(
+      const priorityWrapper = View.createEle(
         'fieldset',
         'modal-form-item-wrapper',
         'modal-task-prio'
       );
-      const priorityBox = this.createEle('div', 'modal-radio-wrapper');
-      const priorityLabel = this.createEle('p', 'modal-label');
+      const priorityBox = View.createEle('div', 'modal-radio-wrapper');
+      const priorityLabel = View.createEle('p', 'modal-label');
       priorityLabel.textContent = 'Priority';
-      const labelHighPrio = this.createEle(
+      const labelHighPrio = View.createEle(
         'label',
         'btn',
         'btn-form',
@@ -373,13 +379,13 @@ export default class View {
       );
       labelHighPrio.setAttribute('for', 'highPrio');
       labelHighPrio.textContent = 'High';
-      const radioHighPrio = this.createEle('input', 'modal-radio');
+      const radioHighPrio = View.createEle('input', 'modal-radio');
       radioHighPrio.id = 'highPrio';
       radioHighPrio.type = 'radio';
       radioHighPrio.name = 'priority';
       radioHighPrio.value = 'High';
 
-      const labelMediumPrio = this.createEle(
+      const labelMediumPrio = View.createEle(
         'label',
         'btn',
         'btn-form',
@@ -387,13 +393,13 @@ export default class View {
       );
       labelMediumPrio.setAttribute('for', 'mediumPrio');
       labelMediumPrio.textContent = 'Medium';
-      const radioMediumPrio = this.createEle('input', 'modal-radio');
+      const radioMediumPrio = View.createEle('input', 'modal-radio');
       radioMediumPrio.id = 'mediumPrio';
       radioMediumPrio.type = 'radio';
       radioMediumPrio.name = 'priority';
       radioMediumPrio.value = 'Medium';
 
-      const labelLowPrio = this.createEle(
+      const labelLowPrio = View.createEle(
         'label',
         'btn',
         'btn-form',
@@ -401,7 +407,7 @@ export default class View {
       );
       labelLowPrio.setAttribute('for', 'lowPrio');
       labelLowPrio.textContent = 'Low';
-      const radioLowPrio = this.createEle('input', 'modal-radio');
+      const radioLowPrio = View.createEle('input', 'modal-radio');
       radioLowPrio.id = 'lowPrio';
       radioLowPrio.type = 'radio';
       radioLowPrio.name = 'priority';
@@ -438,7 +444,7 @@ export default class View {
       );
     } else if (type === 'project') {
       this.modalTitle.textContent = 'New Project';
-      const projectTitle = this.createEle(
+      const projectTitle = View.createEle(
         'input',
         'modal-input',
         'modal-project-title'
@@ -457,10 +463,10 @@ export default class View {
   };
 
   displayProjects(projects) {
-    this.clear(this.projectList);
+    View.clear(this.projectList);
     projects.forEach((project) => {
-      const projectElement = this.createEle('li', 'projects-item');
-      const projectName = this.createEle('p');
+      const projectElement = View.createEle('li', 'projects-item');
+      const projectName = View.createEle('p');
       projectName.textContent = project.name;
       projectElement.dataset.projectid = project.id;
       projectElement.dataset.label = 'filter';
@@ -468,14 +474,14 @@ export default class View {
       projectElement.append(projectName);
       if (project.id > 1) {
         projectElement.dataset.projecttype = 'custom';
-        const deleteButton = this.createEle(
+        const deleteButton = View.createEle(
           'button',
           'btn',
           'btn-icon-only',
           'btn-project-delete'
         );
         deleteButton.dataset.label = 'delete-button';
-        const deleteIcon = this.createSVG('close', 'icon', 'icon-3');
+        const deleteIcon = View.createSVG('close', 'icon', 'icon-3');
         deleteButton.append(deleteIcon);
         projectElement.append(deleteButton);
       }
@@ -486,9 +492,9 @@ export default class View {
 
   eventCloseModal() {
     this.form.addEventListener('click', (e) => {
-      const target = e.target;
+      const { target } = e;
       if (target.dataset.label === 'close-modal') {
-        this.clear(this.form);
+        View.clear(this.form);
         this.modal.close();
         this.warning.textContent = '';
       }
@@ -496,13 +502,13 @@ export default class View {
   }
 
   eventNewTask() {
-    this.newTaskBtn.addEventListener('click', (e) => {
+    this.newTaskBtn.addEventListener('click', () => {
       this.buildModal('task');
     });
   }
 
   eventNewProject() {
-    this.newProjectBtn.addEventListener('click', (e) => {
+    this.newProjectBtn.addEventListener('click', () => {
       this.buildModal('project');
     });
   }
@@ -512,18 +518,18 @@ export default class View {
       e.preventDefault();
       const type = e.submitter.dataset.subtype;
       if (type === 'task') {
-        if (this._taskDetails) {
-          handler(this._taskDetails, type);
+        if (this.taskDetails()) {
+          handler(this.taskDetails(), type);
           this.modal.close();
         }
       } else if (type === 'project') {
-        if (this._projectDetails) {
-          handler(this._projectDetails, type);
+        if (this.projectDetails()) {
+          handler(this.projectDetails(), type);
           this.modal.close();
         }
       } else if (type === 'edit') {
-        if (this._taskDetails) {
-          const task = this._taskDetails;
+        if (this.taskDetails()) {
+          const task = this.taskDetails();
           task.id = Number(e.submitter.dataset.taskid);
           handler(task, type);
           this.modal.close();
@@ -534,7 +540,7 @@ export default class View {
 
   eventClickToEditTask(handler) {
     this.taskList.addEventListener('click', (e) => {
-      const target = e.target;
+      const { target } = e;
       if (target.closest('button')?.dataset.label === 'edit-button') {
         const id = Number(target.closest('li').dataset.taskid);
         const task = handler(id);
@@ -545,7 +551,7 @@ export default class View {
 
   eventDeleteTask(handler) {
     this.taskList.addEventListener('click', (e) => {
-      const target = e.target;
+      const { target } = e;
       if (target.closest('button')?.dataset.label === 'delete-button') {
         const id = Number(target.closest('li').dataset.taskid);
         handler(id);
@@ -564,9 +570,9 @@ export default class View {
 
   eventDeleteProject(handler) {
     this.projectList.addEventListener('click', (e) => {
-      e.stopPropagation();
       const button = e.target.closest('button');
       if (button?.dataset.label === 'delete-button') {
+        e.stopImmediatePropagation();
         const id = button.closest('li').dataset.projectid;
         handler(Number(id));
         this.labelTaskListHeading.textContent = 'All';
@@ -577,17 +583,17 @@ export default class View {
   eventFilter(handler) {
     this.filterList.addEventListener('click', (e) => {
       if (e.target.closest('li')?.dataset.label === 'filter') {
-        const filter = e.target.closest('li').dataset.filter;
-        this.labelTaskListHeading.textContent = this.capitalise(filter);
+        const { filter } = e.target.closest('li').dataset;
+        this.labelTaskListHeading.textContent = View.capitalise(filter);
         handler(filter);
         this.toggleFilter();
       }
     });
     this.projectList.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (e.target.parentElement.dataset?.label === 'filter') {
-        const filter = e.target.closest('li').dataset.filter;
-        this.labelTaskListHeading.textContent = this.capitalise(filter);
+      if (e.target.closest('li').dataset?.label === 'filter') {
+        const { filter } = e.target.closest('li').dataset;
+        this.labelTaskListHeading.textContent = View.capitalise(filter);
         handler(filter);
       }
     });

@@ -19,7 +19,7 @@ export default class Model {
     return edittask;
   }
 
-  compare = (a, b) => {
+  static compare = (a, b) => {
     if (a.complete > b.complete) return 1;
     if (a.complete < b.complete) return -1;
     return 0;
@@ -62,12 +62,12 @@ export default class Model {
     this.onProjectChange = handler;
   }
 
-  _commitTaskChange(tasks) {
+  commitTaskChange(tasks) {
     this.onTaskChange(tasks);
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
-  _commitProjectChange(projects) {
+  commitProjectChange(projects) {
     this.onProjectChange(projects);
     localStorage.setItem('projects', JSON.stringify(projects));
   }
@@ -93,7 +93,7 @@ export default class Model {
       complete: false,
     };
     this.tasks.push(task);
-    this._commitTaskChange(this.tasks);
+    this.commitTaskChange(this.tasks);
   }
 
   editTask(editedTask) {
@@ -110,11 +110,12 @@ export default class Model {
           }
         : task
     );
-    this._commitTaskChange(this.tasks);
+    this.commitTaskChange(this.tasks);
   }
+
   deleteTask(id) {
     this.tasks = this.tasks.filter((task) => task.id !== id);
-    this._commitTaskChange(this.tasks);
+    this.commitTaskChange(this.tasks);
   }
 
   completeTask(id) {
@@ -132,8 +133,9 @@ export default class Model {
         : task
     );
     this.tasks.sort(this.compare);
-    this._commitTaskChange(this.tasks);
+    this.commitTaskChange(this.tasks);
   }
+
   addProject(newProject) {
     const project = {
       id:
@@ -143,7 +145,7 @@ export default class Model {
       name: newProject,
     };
     this.projects.push(project);
-    this._commitProjectChange(this.projects);
+    this.commitProjectChange(this.projects);
   }
 
   deleteProject(id) {
@@ -162,8 +164,8 @@ export default class Model {
         : task
     );
     this.projects = this.projects.filter((project) => project.id !== id);
-    this._commitTaskChange(this.tasks);
-    this._commitProjectChange(this.projects);
+    this.commitTaskChange(this.tasks);
+    this.commitProjectChange(this.projects);
     this.filterTaskList('all');
   }
 }
