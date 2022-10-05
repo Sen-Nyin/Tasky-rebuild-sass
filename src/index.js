@@ -60,4 +60,5 @@ class Controller {
   handleFilterTasks = (filter) => this.model.filterTaskList(filter);
 }
 
+// eslint-disable-next-line no-unused-vars
 const tasky = new Controller(new Model(), new View());

@@ -169,7 +169,6 @@ export default class View {
   // ################## [ DOM INJECTION ] ##################
   displayTasks(tasks) {
     View.clear(this.taskList);
-
     if (!tasks.length) {
       const message = View.createEle('p', 'tasks-notask-text');
       message.textContent = 'No tasks, go take a walk';
@@ -180,28 +179,22 @@ export default class View {
         const labelIcon = View.createSVG('label', 'icon', 'icon-4');
         const deleteIcon = View.createSVG('delete', 'icon', 'icon-5');
         const editIcon = View.createSVG('edit', 'icon', 'icon-5');
-
         const taskElement = View.createEle('li', 'tasks-list-item');
         taskElement.dataset.taskid = task.id;
-
         const detailsElement = View.createEle('details', 'tasks-details');
         const summaryElement = View.createEle('summary', 'tasks-summary');
-
         if (task.priority === 'High')
           taskElement.classList.add('priority-high');
         if (task.priority === 'Medium')
           taskElement.classList.add('priority-medium');
         if (task.priority === 'Low') taskElement.classList.add('priority-low');
-
         const taskText = View.createEle('span', 'tasks-list-item-title');
         taskText.textContent = task.task;
-
         const descriptionText = View.createEle(
           'p',
           'tasks-list-item-description'
         );
         descriptionText.textContent = task.description;
-
         const taskDate = View.createEle('span', 'tasks-list-item-date');
         if (new Date().toISOString() > new Date(task.duedate).toISOString()) {
           const days = Math.round(
@@ -228,13 +221,10 @@ export default class View {
             taskDate.textContent = task.duedate;
           }
         }
-
         taskDate.prepend(alarmIcon);
-
         const taskProject = View.createEle('span', 'tasks-list-item-project');
         taskProject.textContent = task.project;
         taskProject.prepend(labelIcon);
-
         const checkbox = View.createEle('input', 'tasks-list-item-checkbox');
         checkbox.type = 'checkbox';
         const buttonWrapper = View.createEle(
@@ -250,7 +240,6 @@ export default class View {
         );
         deleteButton.append(deleteIcon);
         deleteButton.dataset.label = 'delete-button';
-
         const editButton = View.createEle(
           'button',
           'btn',
@@ -260,9 +249,7 @@ export default class View {
         );
         editButton.append(editIcon);
         editButton.dataset.label = 'edit-button';
-
         buttonWrapper.append(editButton, deleteButton);
-
         if (task.complete) {
           taskElement.classList.add('tasks-complete');
           checkbox.checked = true;
@@ -270,7 +257,6 @@ export default class View {
           taskText.classList.add('tasks-list-item-complete');
           taskDate.textContent = 'Complete';
         }
-
         summaryElement.append(taskText, buttonWrapper, taskDate, taskProject);
         detailsElement.append(summaryElement, descriptionText);
         taskElement.append(checkbox, detailsElement);
@@ -281,16 +267,13 @@ export default class View {
 
   buildModal = (type, dataArr) => {
     View.clear(this.form);
-
     const buttonContainer = View.createEle('div', 'modal-button-wrapper');
     buttonContainer.dataset.label = 'form-button-container';
-
     const closeButton = View.createEle('button', 'btn', 'btn-form', 'btn--red');
     closeButton.dataset.label = 'close-modal';
     closeButton.id = 'close-modal';
     closeButton.textContent = 'Cancel';
     closeButton.type = 'button';
-
     const submitButton = View.createEle(
       'button',
       'btn',
@@ -302,10 +285,8 @@ export default class View {
     submitButton.id = 'submit';
     submitButton.textContent = 'Submit';
     submitButton.dataset.subtype = type;
-
     if (type === 'task' || type === 'edit') {
       this.modalTitle.textContent = type === 'task' ? 'New Task' : 'Edit Task';
-
       const taskTitleInput = View.createEle(
         'input',
         'modal-input',
@@ -315,12 +296,10 @@ export default class View {
       taskTitleInput.type = 'text';
       taskTitleInput.id = 'modal-task-title';
       taskTitleInput.placeholder = 'Task title';
-
       const taskDescription = View.createEle('textarea', 'modal-task-desc');
       taskDescription.placeholder = 'Task description...';
       taskDescription.dataset.label = 'modal-task-description';
       taskDescription.setAttribute('rows', '6');
-
       const dateWrapper = View.createEle(
         'fieldset',
         'modal-form-item-wrapper',
@@ -335,7 +314,6 @@ export default class View {
       taskDueDateInput.id = 'modal-task-date';
       taskDueDateInput.placeholder = 'Due date...';
       dateWrapper.append(taskDueDateInputLabel, taskDueDateInput);
-
       const projectWrapper = View.createEle(
         'fieldset',
         'modal-form-item-wrapper'
@@ -351,11 +329,9 @@ export default class View {
       taskProjectInput.dataset.label = 'modal-task-project';
       taskProjectInput.id = 'modal-project-select';
       projectWrapper.append(taskProjectInputLabel, taskProjectInput);
-
       const projects = this.getProjects();
       projects.forEach((project) => {
         const option = View.createEle('option');
-
         option.value = project.name;
         option.textContent = project.name;
         taskProjectInput.append(option);
@@ -363,7 +339,6 @@ export default class View {
           taskProjectInput.value = project.name;
         }
       });
-
       const priorityWrapper = View.createEle(
         'fieldset',
         'modal-form-item-wrapper',
@@ -385,7 +360,6 @@ export default class View {
       radioHighPrio.type = 'radio';
       radioHighPrio.name = 'priority';
       radioHighPrio.value = 'High';
-
       const labelMediumPrio = View.createEle(
         'label',
         'btn',
@@ -399,7 +373,6 @@ export default class View {
       radioMediumPrio.type = 'radio';
       radioMediumPrio.name = 'priority';
       radioMediumPrio.value = 'Medium';
-
       const labelLowPrio = View.createEle(
         'label',
         'btn',
@@ -413,7 +386,6 @@ export default class View {
       radioLowPrio.type = 'radio';
       radioLowPrio.name = 'priority';
       radioLowPrio.value = 'Low';
-
       priorityBox.append(
         radioHighPrio,
         labelHighPrio,
@@ -423,7 +395,6 @@ export default class View {
         labelLowPrio
       );
       priorityWrapper.append(priorityLabel, priorityBox);
-
       if (type === 'edit') {
         const [data] = dataArr;
         taskTitleInput.value = data.task;
@@ -435,7 +406,6 @@ export default class View {
         if (data.priority === 'Medium') radioMediumPrio.checked = true;
         if (data.priority === 'Low') radioLowPrio.checked = true;
       }
-
       this.form.prepend(
         taskTitleInput,
         taskDescription,
@@ -454,10 +424,8 @@ export default class View {
       projectTitle.type = 'text';
       projectTitle.id = 'project-title';
       projectTitle.placeholder = 'Project title...';
-
       this.form.append(projectTitle);
     }
-
     buttonContainer.append(closeButton, submitButton);
     this.form.append(buttonContainer);
     this.modal.showModal();
