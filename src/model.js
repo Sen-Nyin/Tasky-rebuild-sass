@@ -10,6 +10,7 @@ export default class Model {
     ];
   }
 
+  // eslint-disable-next-line no-underscore-dangle
   get _projects() {
     return this.projects;
   }
